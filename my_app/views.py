@@ -3,10 +3,20 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse
 
 from .forms import RegisterForm
+from .models import Pool, Vote
 
 
 def index(request):
-    return render(request, 'home/index.html')
+    pool = Pool.objects.all().order_by('-id')
+    img = Vote.objects.get(name=pool[0].title)
+    # fill = img.filter(name=pool[0].title)
+    print(img)
+    
+    return render(request, 'home/index.html', {
+        'pool': pool,
+        'img': img,
+        }
+    )
 
 
 def register(request):
@@ -28,4 +38,5 @@ def login_status(request):
         return render(request, 'logged_in.html')
     
     else:
-        return render(request, 'not_login.html')
+        return HttpResponseRedirect('../login/')
+
