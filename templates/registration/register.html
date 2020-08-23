@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block title %}
+| Register
+{% endblock title %}
+
+
+{% block content %}
+<div class="container py-5">
+    <div class="row">
+        <div class="col-5 mx-auto">
+            <div class="card border-primary">
+                <div class="card-header bg-primary">
+                    <h1 class="text-center ">Register</h1>
+                </div>
+                <div class="card-body">
+                    <form action="" method="post" class="form">
+                        {% csrf_token%}
+                        {{ form.as_p }}
+                        <input type="submit" value="Register" class="btn btn-primary">
+                    </form>
+                </div>
+                <div class="card-footer border-primary">
+                    <p class="text-center text-capitalize">Have an acount? Login <a href="../login/" class="text-info">Here</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
