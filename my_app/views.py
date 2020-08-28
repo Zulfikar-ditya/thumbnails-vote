@@ -7,16 +7,20 @@ from .models import Pool, Vote
 
 
 def index(request):
-    pool = Pool.objects.all().order_by('-id')
-    img = Vote.objects.get(name=pool[0].title)
-    # fill = img.filter(name=pool[0].title)
-    print(img)
-    
+    pool = Pool.objects.all().order_by('-date_add')
+
     return render(request, 'home/index.html', {
         'pool': pool,
-        'img': img,
         }
     )
+
+
+def add_thumbnails(request):
+    if request.method == "POST":
+        print()
+    else:
+        pass
+    return render(request, 'home/add_thumnails.html')
 
 
 def register(request):
@@ -24,7 +28,7 @@ def register(request):
         return HttpResponseRedirect(reverse('home:login_status'))
     else:
         if request.method == 'POST':
-            form = RegisterForm(request.POST)
+            form = RegisterForm(request.POST)   
             if form.is_valid():
                 form.save()
                 return HttpResponseRedirect('../login/')
