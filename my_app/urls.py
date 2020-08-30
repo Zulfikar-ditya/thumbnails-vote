@@ -9,4 +9,6 @@ urlpatterns = [
     path('register/', views.register, name='register'),
     path('login_status/', views.login_status, name='login_status'),
     path('detail/<int:id_pool>/', views.detail, name='detail'),
+    path('vote/<int:img_id>/', views.vote, name='vote'),
+    path('404/', views.not_found, name='not_found'),
 ]

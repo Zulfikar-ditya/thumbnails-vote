@@ -25,10 +25,11 @@ def detail(request, id_pool):
             img1 = img[0]
             img2 = img[1]
 
-            message = None
-
-            print(message is None)
-
+            if pool.status == False:
+                message = 'this thumbnail does not exist'
+            else:
+                message = None
+            
             return render(request, 'home/detail.html', {
                 'pool': pool,
                 'img1': img1,
@@ -39,12 +40,34 @@ def detail(request, id_pool):
 
         except (KeyError, Pool.DoesNotExist):
             message = 'this thumbnail does not exist'
-            print(message is None)
             return render(request, 'home/detail.html', {
             'message' : message
             }
         )
-        
+
+    else:
+        return HttpResponseRedirect(reverse('home:login_status'))
+
+
+def vote(request, img_id):
+    if request.user.is_authenticated:
+
+        try:
+            img = Vote.objects.get(pk=img_id)
+            pool = Pool.objects.get(title=img.name)
+            if request.method == 'POST':
+                img.vote += 1
+                img.save()
+                return HttpResponseRedirect(f'../../detail/{pool.id}/')
+            else:
+                return HttpResponseRedirect(reverse('home:not_found'))
+
+        except (KeyError, Vote.DoesNotExist):
+            return HttpResponseRedirect(reverse('home:not_found'))
+
+        except (KeyError, Pool.DoesNotExist):
+            return HttpResponseRedirect(reverse('home:not_found'))
+            
     else:
         return HttpResponseRedirect(reverse('home:login_status'))
 
@@ -78,3 +101,6 @@ def login_status(request):
     else:
         return HttpResponseRedirect('../login/')
 
+
+def not_found(request):
+    return render(request, 'home/404.html')

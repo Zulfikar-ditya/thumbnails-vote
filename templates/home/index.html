@@ -4,20 +4,22 @@
 
 {% block content %}
 <div class="container my-5 mx-auto">
-    <div class="row justify-content-around h-100">
+    <div class="row justify-content-around">
         {% for i in pool %}
-        <div class="col-lg-6 mb-5">
-            <div class="card border-success">
-                <div class="card-header border-success">
-                   <img src="{{ i.img_sample }}" alt="" class="img-card-top" width="100%">
-                </div>
-                <div class="card-body">
-                    <h4 class="text-dark"><a href="../detail/{{ i.id }}" target="_blank">{{ i.title }}</a></h4>
-                    <p class="text-secondary">{{ i.user }}</p>
-                    <p class="text-secondary">{{ i.date_add }}</p>
+            {% if i.status == True %}
+            <div class="col-lg-6 mb-5">
+                <div class="card border-success">
+                    <div class="card-header border-success">
+                    <img src="{{ i.img_sample }}" alt="" class="img-card-top" width="100%">
+                    </div>
+                    <div class="card-body">
+                        <h4 class="text-dark"><a href="../detail/{{ i.id }}" target="_blank">{{ i.title }}</a></h4>
+                        <p class="text-secondary">{{ i.user }}</p>
+                        <p class="text-secondary">{{ i.date_add }}</p>
+                    </div>
                 </div>
             </div>
-        </div>
+            {% endif %}
         {% endfor %}
     </div>
 </div>

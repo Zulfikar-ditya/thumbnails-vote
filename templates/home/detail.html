@@ -8,7 +8,7 @@
 
 {% block content %}
 
-{% if message is None %}
+{% if message is None and pool.status == True %}
 <div class="container my-5 mx-auto">
     <div class="card border-success">
         <div class="card-header border-success">
@@ -50,13 +50,22 @@
             <!--/.Carousel Wrapper-->
         </div>
         <div class="card-body">
+            <div class="">
+                <p class="text-center text-success">{{ img1.vote }} <span class="text-warning ml-5">{{ img2.vote }}</span></p>
+            </div>
             <h3 class="card-title">{{ pool.title }}</h3>
             <p class="text-secondary">{{ pool.user }}</p>
             <p class="text-secondary">{{ pool.date_add }}</p>
         </div>
         <div class="card-footer border-success d-flex justify-content-center p-3 bg-transparent">
-            <a href="" class="btn btn-success mr-5">Image 1</a>
-            <a href="" class="btn btn-warning">Image 2</a>
+            <form action="../../../vote/{{img1.id}}/" method="post">
+            {% csrf_token %}
+                <input type="submit" value="Image 1" class="btn btn-success">
+            </form>
+            <form action="../../../vote/{{img2.id}}/" method="post">
+            {% csrf_token %}
+                <input type="submit" value="Image 2" class="btn btn-warning ml-5">
+            </form>
         </div>
     </div>
 </div>
