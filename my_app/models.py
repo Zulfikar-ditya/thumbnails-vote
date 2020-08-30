@@ -28,7 +28,4 @@ class Vote(models.Model):
     name = models.ForeignKey(Pool, on_delete=models.CASCADE)
     image = models.ImageField(upload_to='static/upload_tumb/')
     vote = models.IntegerField(default=0)
-
-    def __str__(self):
-        return self.name
     

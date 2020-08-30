@@ -15,6 +15,40 @@ def index(request):
     )
 
 
+def detail(request, id_pool):
+    if request.user.is_authenticated:
+        
+        try:
+            pool = Pool.objects.get(id=id_pool)
+            img = Vote.objects.filter(name=pool.id)
+
+            img1 = img[0]
+            img2 = img[1]
+
+            message = None
+
+            print(message is None)
+
+            return render(request, 'home/detail.html', {
+                'pool': pool,
+                'img1': img1,
+                'img2': img2,
+                'message': message,
+                }
+            )
+
+        except (KeyError, Pool.DoesNotExist):
+            message = 'this thumbnail does not exist'
+            print(message is None)
+            return render(request, 'home/detail.html', {
+            'message' : message
+            }
+        )
+        
+    else:
+        return HttpResponseRedirect(reverse('home:login_status'))
+
+
 def add_thumbnails(request):
     if request.method == "POST":
         print()
