@@ -15,17 +15,15 @@ class Pool(models.Model):
     status = models.BooleanField(default=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
-    img_sample = models.ImageField(upload_to='static/sample/')
+    img_1 = models.ImageField(upload_to='static/upload_tumb/')
+    img_2 = models.ImageField(upload_to='static/upload_tumb/')
+
+    vote_img1 = models.IntegerField(default=0)
+    vote_img2 = models.IntegerField(default=0)
     def __str__(self):
         return self.title
     
     def deactive(self):
         self.status=False
         self.save()
-
-
-class Vote(models.Model):
-    name = models.ForeignKey(Pool, on_delete=models.CASCADE)
-    image = models.ImageField(upload_to='static/upload_tumb/')
-    vote = models.IntegerField(default=0)
     

@@ -2,8 +2,8 @@ from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 
-from .forms import RegisterForm
-from .models import Pool, Vote
+from .forms import RegisterForm, PoolForm
+from .models import Pool, Categories
 
 
 def index(request):
@@ -13,40 +13,6 @@ def index(request):
         'pool': pool,
         }
     )
-
-
-def detail(request, id_pool):
-    if request.user.is_authenticated:
-        
-        try:
-            pool = Pool.objects.get(id=id_pool)
-            img = Vote.objects.filter(name=pool.id)
-
-            img1 = img[0]
-            img2 = img[1]
-
-            if pool.status == False:
-                message = 'this thumbnail does not exist'
-            else:
-                message = None
-            
-            return render(request, 'home/detail.html', {
-                'pool': pool,
-                'img1': img1,
-                'img2': img2,
-                'message': message,
-                }
-            )
-
-        except (KeyError, Pool.DoesNotExist):
-            message = 'this thumbnail does not exist'
-            return render(request, 'home/detail.html', {
-            'message' : message
-            }
-        )
-
-    else:
-        return HttpResponseRedirect(reverse('home:login_status'))
 
 
 def vote(request, img_id):
@@ -73,11 +39,20 @@ def vote(request, img_id):
 
 
 def add_thumbnails(request):
-    if request.method == "POST":
-        print()
+    if request.user.is_authenticated:
+        if request.method == 'POST':
+            form = PoolForm(request.POST, request.FILES)
+            if form.is_valid():
+                form.save()
+                return HttpResponseRedirect(reverse('home:index'))
+        else:
+            form = PoolForm()
+        return render(request, 'home/add_thumnails.html', {
+            'form' : form,
+        }
+        )
     else:
-        pass
-    return render(request, 'home/add_thumnails.html')
+        return HttpResponseRedirect(reverse('home:login_status'))
 
 
 def register(request):

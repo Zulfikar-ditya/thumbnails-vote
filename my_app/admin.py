@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Vote, Categories, Pool
+from .models import Categories, Pool
 
 # Register your models here.
 class CatageriesAdmin(admin.ModelAdmin):
@@ -17,18 +17,10 @@ class PoolAdmin(admin.ModelAdmin):
         'title',
         'status',
         'user',
+        'img_1',
+        'img_2',
     ]
 
-
-class VoteAdmin(admin.ModelAdmin):
-    list_display = [
-        'id',
-        'name',
-        'image',
-        'vote',
-
-    ]
 
 admin.site.register(Pool, PoolAdmin)
 admin.site.register(Categories, CatageriesAdmin)
-admin.site.register(Vote, VoteAdmin)

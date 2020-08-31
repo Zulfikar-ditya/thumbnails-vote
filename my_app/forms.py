@@ -3,6 +3,8 @@ from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 
+from .models import Pool
+
 
 class RegisterForm(UserCreationForm):
     email = forms.EmailField()
@@ -19,3 +21,16 @@ class RegisterForm(UserCreationForm):
             'password1',
             'password2',
         ]
+
+
+
+class PoolForm(forms.ModelForm):
+    
+    class Meta:
+        model = Pool
+        fields = (
+            'title',
+            'categories',
+            'img_1',
+            'img_2',
+        )
