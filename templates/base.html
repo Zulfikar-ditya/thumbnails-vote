@@ -40,7 +40,7 @@
 
     {% else %}
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <a class="navbar-brand ml-5" href="#">Thumbnails Vote</a>
+        <a class="navbar-brand ml-5" href="{% url 'home:index' %}">Thumbnails Vote</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -49,7 +49,7 @@
         <div class="collapse navbar-collapse mr-5" id="navbarSupportedContent">
             <ul class="navbar-nav ml-lg-auto text-center">
                 <li class="nav-item active">
-                    <a class="nav-link text-capitalize" href="#">Login</a>
+                    <a class="nav-link text-capitalize" href="login/">Login</a>
                 </li>
                 <li class="nav-item active">
                     <a class="nav-link text-capitalize" href="{% url 'home:register' %}">register</a>

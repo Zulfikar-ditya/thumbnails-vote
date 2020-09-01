@@ -61,6 +61,7 @@
                     </div>
                 </div>
                 <div class="card-footer border-success d-flex justify-content-center p-3 bg-transparent">
+                    {% if request.user != i.user %}
                     <form action="../../../vote/{{i.img_1.id}}/" method="post">
                         {% csrf_token %}
                         <input type="submit" value="Image 1" class="btn btn-success">
@@ -69,6 +70,10 @@
                         {% csrf_token %}
                         <input type="submit" value="Image 2" class="btn btn-warning ml-5">
                     </form>
+                    {% else %}
+                    <a href="" class="btn btn-success">Edit</a>
+                    <a href="" class="btn btn-danger ml-5">Delete</a>
+                    {% endif %}
                 </div>
             </div>
         </div>
