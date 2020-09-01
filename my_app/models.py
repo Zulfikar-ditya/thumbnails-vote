@@ -13,7 +13,7 @@ class Pool(models.Model):
     title = models.CharField(max_length=30)
     categories = models.ForeignKey(Categories, on_delete=models.CASCADE)
     status = models.BooleanField(default=True)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
 
     img_1 = models.ImageField(upload_to='static/upload_tumb/')
     img_2 = models.ImageField(upload_to='static/upload_tumb/')

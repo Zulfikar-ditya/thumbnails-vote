@@ -42,8 +42,11 @@ def add_thumbnails(request):
     if request.user.is_authenticated:
         if request.method == 'POST':
             form = PoolForm(request.POST, request.FILES)
+            print(form.is_valid())
             if form.is_valid():
-                form.save()
+                instance = form.save(commit=False)
+                instance.user = request.user
+                instance.save()
                 return HttpResponseRedirect(reverse('home:index'))
         else:
             form = PoolForm()

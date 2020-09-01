@@ -25,7 +25,8 @@ class RegisterForm(UserCreationForm):
 
 
 class PoolForm(forms.ModelForm):
-    
+    img_1 = forms.ImageField(label='Image 1')
+    img_2 = forms.ImageField(label='Image 2')
     class Meta:
         model = Pool
         fields = (
