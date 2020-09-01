@@ -61,9 +61,13 @@ def add_thumbnails(request):
 def my_thumbnails(request):
     if request.user.is_authenticated:
         my_thum = Pool.objects.filter(user=request.user).order_by('-date_add')
-
+        if len(my_thum) == 0:
+            message = "You don't have a post yet"
+        else:
+            message = None
         return render(request, 'home/my.html', {
             'my_thum': my_thum,
+            'message' : message,
         })
     else:
         return HttpResponseRedirect(reverse('home:login_status'))

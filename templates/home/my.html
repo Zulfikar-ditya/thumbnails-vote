@@ -7,9 +7,11 @@
 {% endblock title %}
 
 {% block content %}
+{% if message is None %}
 <div class="container my-5">
     <div class="row justify-content-around">
         {% for i in my_thum %}
+
         {% if i.status == True %}
         <div class="col-lg-6 mb-5">
             <div class="card border-primary">
@@ -66,10 +68,26 @@
                 </div>
             </div>
         </div>
-        {% endif %}
-        {% endfor %}
     </div>
 </div>
+{% endif %}
+{% endfor %}
+{% else %}
+<div class="container my-5">
+    <div class="row justify-content-around">
+        <div class="col-lg-6">
+            <div class="card border-success">
+                <div class="card-header bg-danger text-center">
+                    <h1>404</h1>
+                </div>
+                <div class="card-body">
+                    <h3 class="text-center">{{ message }}</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
 <script type="text/javascript" src="{% static 'css/bootstrap/js/bootstrap.min.js' %}"></script>
 <!-- another js -->
 <script type="text/javascript" src="{% static 'js/jquery-3.5.1.slim.min.js' %}"></script>
