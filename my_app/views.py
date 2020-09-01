@@ -58,6 +58,17 @@ def add_thumbnails(request):
         return HttpResponseRedirect(reverse('home:login_status'))
 
 
+def my_thumbnails(request):
+    if request.user.is_authenticated:
+        my_thum = Pool.objects.filter(user=request.user).order_by('-date_add')
+
+        return render(request, 'home/my.html', {
+            'my_thum': my_thum,
+        })
+    else:
+        return HttpResponseRedirect(reverse('home:login_status'))
+
+
 def register(request):
     if request.user.is_authenticated:
         return HttpResponseRedirect(reverse('home:login_status'))

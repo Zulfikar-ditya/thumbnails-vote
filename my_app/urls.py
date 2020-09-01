@@ -10,4 +10,5 @@ urlpatterns = [
     path('login_status/', views.login_status, name='login_status'),
     path('vote/<int:img_id>/', views.vote, name='vote'),
     path('404/', views.not_found, name='not_found'),
+    path('my_thumbnails/', views.my_thumbnails, name='my_thumbnails'),
 ]   
