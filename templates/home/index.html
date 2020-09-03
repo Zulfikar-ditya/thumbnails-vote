@@ -60,7 +60,7 @@
                         <p class="text-warning">Image 2: {{ i.vote_img2 }}</p>
                     </div>
                 </div>
-                {% if request.user.is_autheticated %}
+                {% if request.user.is_authenticated %}
                 <div class="card-footer border-success d-flex justify-content-center p-3 bg-transparent">
                     {% if request.user != i.user %}
                     <form action="../../../vote/{{i.img_1.id}}/" method="post">
