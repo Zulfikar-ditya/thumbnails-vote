@@ -43,6 +43,10 @@ def add_thumbnails(request):
         if request.method == 'POST':
             form = PoolForm(request.POST, request.FILES)
             print(form.is_valid())
+            print(request.POST['title'])
+            print(request.POST['categories'])
+            print(request.POST['img_1'])
+            print(request.POST['img_2'])
             if form.is_valid():
                 instance = form.save(commit=False)
                 instance.user = request.user
