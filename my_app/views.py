@@ -15,38 +15,10 @@ def index(request):
     )
 
 
-def vote(request, img_id):
-    if request.user.is_authenticated:
-
-        try:
-            img = Vote.objects.get(pk=img_id)
-            pool = Pool.objects.get(title=img.name)
-            if request.method == 'POST':
-                img.vote += 1
-                img.save()
-                return HttpResponseRedirect(f'../../detail/{pool.id}/')
-            else:
-                return HttpResponseRedirect(reverse('home:not_found'))
-
-        except (KeyError, Vote.DoesNotExist):
-            return HttpResponseRedirect(reverse('home:not_found'))
-
-        except (KeyError, Pool.DoesNotExist):
-            return HttpResponseRedirect(reverse('home:not_found'))
-            
-    else:
-        return HttpResponseRedirect(reverse('home:login_status'))
-
-
 def add_thumbnails(request):
     if request.user.is_authenticated:
         if request.method == 'POST':
             form = PoolForm(request.POST, request.FILES)
-            print(form.is_valid())
-            print(request.POST['title'])
-            print(request.POST['categories'])
-            print(request.POST['img_1'])
-            print(request.POST['img_2'])
             if form.is_valid():
                 instance = form.save(commit=False)
                 instance.user = request.user

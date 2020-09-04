@@ -16,7 +16,7 @@
                     <h3>Add Thumnail</h3>
                 </div>
                 <div class="card-body">
-                    <form action="" method="post" class="text-center">
+                    <form action="" method="post" class="text-center" enctype="multipart/form-data">
                         {% csrf_token %}
                         {{ form.as_p }}
                 </div>

@@ -9,7 +9,7 @@ class Categories(models.Model):
 
 
 class Pool(models.Model):
-    date_add = models.DateTimeField(auto_now=True)
+    date_add = models.DateTimeField(auto_now_add=True)
     title = models.CharField(max_length=30)
     categories = models.ForeignKey(Categories, on_delete=models.CASCADE)
     status = models.BooleanField(default=True)
