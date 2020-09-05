@@ -34,6 +34,48 @@ def add_thumbnails(request):
         return HttpResponseRedirect(reverse('home:login_status'))
 
 
+def edit_thumb(request, pool_id):
+    if request.user.is_authenticated:
+        try:
+            getPool = Pool.objects.get(pk=pool_id)
+            if getPool.status is True and getPool.user == request.user:
+                categories = Categories.objects.all()
+
+                if request.method == 'POST':
+                    get_title = request.POST['title']
+                    get_categori = request.POST['categories']
+
+                    # check the image will update or not
+                    try:
+                        # try tu update image 1
+                        getPool.img_1 = request.FILES['img_1']
+                    except:
+                        # if the img is blnk
+                        pass
+
+                    try:
+                        getPool.img_2 = request.FILES['img_2']
+                    except:
+                        pass
+                    # update
+                    getPool.title = get_title
+                    getPool.categories = Categories.objects.get(pk=int(get_categori))
+                    getPool.save()
+
+                    return HttpResponseRedirect(reverse('home:my_thumbnails'))
+
+                return render(request, 'home/edit.html', {
+                    'pool': getPool,
+                    'categories': categories,
+                })
+            else:
+                return HttpResponseRedirect(reverse('home:not_found'))
+        except (KeyError, Pool.DoesNotExist):
+            return HttpResponseRedirect(reverse('home:not_found'))
+    else:
+        return HttpResponseRedirect(reverse('home:login_status'))
+
+
 def my_thumbnails(request):
     if request.user.is_authenticated:
         my_thum = Pool.objects.filter(user=request.user).order_by('-date_add')

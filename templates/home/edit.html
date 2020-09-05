@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}
+| Edit {{ pool.title }}
+{% endblock title %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-5">
+            <form action="" method="post" enctype="multipart/form-data" class="form">
+                {% csrf_token %}
+                <div class="card border-primary">
+                    <div class="card-header bg-primary">
+                        <h1 class="text-center">Edit</h1>
+                    </div>
+                    <div class="card-body text-center text-capitalize">
+                        <div class="form-group">
+                            <label for="title">title</label>
+                            <input type="text" name="title" id="" placeholder="{{pool.title}}" required maxlength="30">
+                        </div>
+                        <div class="form-group">
+                            <label for="categories">Categories</label>
+                            <select name="categories" id="" required>
+                                <option value="" selected>--------------</option>
+                            {% for i in categories %}
+                                <option value="{{i.id}}">{{i.name}}</option>
+                            {% endfor %}
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="img_1">Image 1</label> <br>
+                            <a href="../../{{pool.img_1}}" target="_blank">Image 1</a> <br>
+                            <input type="file" src="" alt="" name="img_1" accept="image/*">
+                        </div>
+                        <div class="form-group">
+                            <label for="img_1">Image 2</label> <br>
+                            <a href="../../{{pool.img_2}}" target="_blank">Image 2</a> <br>
+                            <input type="file" src="" alt="" name="img_2" accept="image/*">
+                        </div>
+                    </div>
+                    <div class="card-footer border-primary d-flex justify-content-around">
+                        <input type="submit" value="Edit" class="btn btn-success">
+                        <input type="reset" value="Reset" class="btn btn-warning">
+                        <input type="submit" value="Delete" class="btn btn-danger">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript" src="{% static 'css/bootstrap/js/bootstrap.min.js' %}"></script>
+<!-- another js -->
+<script type="text/javascript" src="{% static 'js/jquery-3.5.1.slim.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/popper.min.js' %}"></script>
+{% endblock content %}
+
