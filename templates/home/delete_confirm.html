@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}
+| Confirm Delete
+{% endblock title %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-5">
+            <div class="card border-danger text-center text-capitalize">
+                <div class="card-header bg-danger">
+                    <h1>Delete Confirm</h1>
+                </div>
+                <div class="card-body justify-content-around">
+                    <p>are you sure to delete this pool: {{ getPool.title }} </p>
+                    <form action="" method="post">
+                        {% csrf_token %}
+                        <input type="submit" value="Delete" class="btn btn-danger">
+                    </form>
+                    <a href="{% url 'home:index' %}" class="btn btn-success">Home</a>
+                    <a href="{% url 'home:my_thumbnails' %}" class="btn btn-warning">my thumbnails</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript" src="{% static 'css/bootstrap/js/bootstrap.min.js' %}"></script>
+<!-- another js -->
+<script type="text/javascript" src="{% static 'js/jquery-3.5.1.slim.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/popper.min.js' %}"></script>
+{% endblock content %}
+

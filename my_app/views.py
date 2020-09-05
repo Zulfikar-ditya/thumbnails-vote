@@ -91,6 +91,26 @@ def my_thumbnails(request):
         return HttpResponseRedirect(reverse('home:login_status'))
 
 
+def delete(request, pool_id):
+    if request.user.is_authenticated:
+        try:
+            getPool = Pool.objects.get(pk=pool_id)
+            if getPool.status == True and getPool.user == request.user:
+                if request.method == 'POST':
+                    getPool.deactive()
+                    getPool.save()
+                    return HttpResponseRedirect(reverse('home:my_thumbnails'))
+                return render(request, 'home/delete_confirm.html', {
+                    'getPool' : getPool,
+                })
+            else:
+                return HttpResponseRedirect(reverse('home:not_found'))
+        except (KeyError, Pool.DoesNotExist):
+            return HttpResponseRedirect(reverse('home:not_found'))
+    else:
+        return HttpResponseRedirect(reverse('home:login_status'))
+
+
 def register(request):
     if request.user.is_authenticated:
         return HttpResponseRedirect(reverse('home:login_status'))
