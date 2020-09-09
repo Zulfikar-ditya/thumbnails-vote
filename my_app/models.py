@@ -18,8 +18,8 @@ class Pool(models.Model):
     img_1 = models.ImageField(upload_to='static/upload_tumb/')
     img_2 = models.ImageField(upload_to='static/upload_tumb/')
 
-    vote_img1 = models.IntegerField(default=0)
-    vote_img2 = models.IntegerField(default=0)
+    vote_img1 = models.ManyToManyField(User, related_name='img_1', blank=True)
+    vote_img2 = models.ManyToManyField(User, related_name='img_2', blank=True)
     def __str__(self):
         return self.title
     
@@ -27,3 +27,9 @@ class Pool(models.Model):
         self.status=False
         self.save()
     
+    def vote_img1_count(self):
+        return self.vote_img1.count()
+
+
+    def vote_img2_count(self):
+        return self.vote_img1.count()

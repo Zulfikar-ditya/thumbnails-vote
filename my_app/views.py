@@ -8,7 +8,6 @@ from .models import Pool, Categories
 
 def index(request):
     pool = Pool.objects.all().order_by('-date_add')
-
     return render(request, 'home/index.html', {
         'pool': pool,
         }
@@ -103,6 +102,28 @@ def delete(request, pool_id):
                 return render(request, 'home/delete_confirm.html', {
                     'getPool' : getPool,
                 })
+            else:
+                return HttpResponseRedirect(reverse('home:not_found'))
+        except (KeyError, Pool.DoesNotExist):
+            return HttpResponseRedirect(reverse('home:not_found'))
+    else:
+        return HttpResponseRedirect(reverse('home:login_status'))
+
+
+def vote(request, pool_id):
+    if request.user.is_authenticated:
+        try:
+            getPool = Pool.objects.get(pk=pool_id)
+            if getPool.status == True and getPool.user != request.user:
+                if request.method == 'POST':
+                    try:
+                        img = request.POST['img1']
+                        getPool.vote_img1.add(request.user)
+                    except (KeyError, Pool.DoesNotExist):
+                        img = request.POST['img2']
+                        getPool.vote_img2.add(request.user)
+                    
+                    return HttpResponseRedirect(reverse('home:index'))
             else:
                 return HttpResponseRedirect(reverse('home:not_found'))
         except (KeyError, Pool.DoesNotExist):
