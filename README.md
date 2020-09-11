@@ -1,5 +1,5 @@
 # Django Web App
-
+## This web project was inspired by Joma Tech
 > install requirements.txt using:
 ```
 pip -r requirements.txt
