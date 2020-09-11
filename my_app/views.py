@@ -1,15 +1,19 @@
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django.urls import reverse
+from django.core.paginator import Paginator
 
 from .forms import RegisterForm, PoolForm
 from .models import Pool, Categories
 
 
 def index(request):
-    pool = Pool.objects.all().order_by('-date_add')
+    pool = Pool.objects.filter(status=True).order_by('-date_add')
+    paginator = Paginator(pool, 15)
+    pageNum = request.GET.get('page')
+    pageObj = paginator.get_page(pageNum)
     return render(request, 'home/index.html', {
-        'pool': pool,
+        'pool': pageObj,
         }
     )
 
@@ -127,12 +131,15 @@ def edit_thumb(request, pool_id):
 def my_thumbnails(request):
     if request.user.is_authenticated:
         my_thum = Pool.objects.filter(user=request.user).order_by('-date_add')
+        paginator = Paginator(my_thum, 15)
+        pageNum = request.GET.get('page')
+        pageObj = paginator.get_page(pageNum)
         if len(my_thum) == 0:
             message = "You don't have a post yet"
         else:
             message = None
         return render(request, 'home/my.html', {
-            'my_thum': my_thum,
+            'pool': pageObj,
             'message' : message,
         })
     else:
