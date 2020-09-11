@@ -22,28 +22,29 @@ def detail(request, pool_id):
     if request.user.is_authenticated:
         try:
             getPool = Pool.objects.get(pk=pool_id)
-            img1 = getPool.vote_img1.all()
-            img2 = getPool.vote_img1.all()
-
-            for i in img1:
-                if request.user != i:
-                    print(i)
-                    user_vote_status_img1 = None
-                    pass
-                else:
-                    user_vote_status_img1 = 'img1'
-                    break
-            for i in img2:
-                if request.user != i:
-                    print(i)
-                    user_vote_status_img2 = None
-                    pass
-                else:
-                    user_vote_status_img2 = 'img2'
-                    break
-            print(user_vote_status_img1)
-            print(user_vote_status_img2)
             if getPool.status is True:
+                img1 = getPool.vote_img1.all()
+                img2 = getPool.vote_img1.all()
+                user_vote_status_img1 = None
+                user_vote_status_img2 = None
+                if getPool.vote_img1_count == 0 and getPool.vote_img2_count == 0:
+                    user_vote_status_img1 = None
+                    user_vote_status_img2 = None
+                else:
+                    for i in img1:
+                        if request.user != i:
+                            user_vote_status_img1 = None
+                            pass
+                        else:
+                            user_vote_status_img1 = 'img1'
+                            break
+                    for i in img2:
+                        if request.user != i:
+                            user_vote_status_img2 = None
+                            pass
+                        else:
+                            user_vote_status_img2 = 'img2'
+                            break
                 if request.method == 'POST':
                     try:
                         img = request.POST['img1']
@@ -57,7 +58,7 @@ def detail(request, pool_id):
                 return render(request, 'home/detail.html', {
                     'pool': getPool,
                     'user_vote_status_img1' : user_vote_status_img1,
-                    'user_vote_status_img2' : user_vote_status_img1,
+                    'user_vote_status_img2' : user_vote_status_img2,
                 })
             else:
                 return HttpResponseRedirect(reverse('home:nout_found'))
