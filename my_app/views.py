@@ -14,6 +14,55 @@ def index(request):
     )
 
 
+def detail(request, pool_id):
+    if request.user.is_authenticated:
+        try:
+            getPool = Pool.objects.get(pk=pool_id)
+            img1 = getPool.vote_img1.all()
+            img2 = getPool.vote_img1.all()
+
+            for i in img1:
+                if request.user != i:
+                    print(i)
+                    user_vote_status_img1 = None
+                    pass
+                else:
+                    user_vote_status_img1 = 'img1'
+                    break
+            for i in img2:
+                if request.user != i:
+                    print(i)
+                    user_vote_status_img2 = None
+                    pass
+                else:
+                    user_vote_status_img2 = 'img2'
+                    break
+            print(user_vote_status_img1)
+            print(user_vote_status_img2)
+            if getPool.status is True:
+                if request.method == 'POST':
+                    try:
+                        img = request.POST['img1']
+                        getPool.vote_img1.add(request.user)
+                    except (KeyError, Pool.DoesNotExist):
+                        img = request.POST['img2']
+                        getPool.vote_img2.add(request.user)
+
+                    return HttpResponseRedirect(f'../../detail/{getPool.id}/')
+
+                return render(request, 'home/detail.html', {
+                    'pool': getPool,
+                    'user_vote_status_img1' : user_vote_status_img1,
+                    'user_vote_status_img2' : user_vote_status_img1,
+                })
+            else:
+                return HttpResponseRedirect(reverse('home:nout_found'))
+        except (KeyError, Pool.DoesNotExist):
+            return HttpResponseRedirect(reverse('home:not_found'))
+    else:
+        return HttpResponseRedirect(reverse('home:login_status'))
+
+
 def add_thumbnails(request):
     if request.user.is_authenticated:
         if request.method == 'POST':
@@ -102,28 +151,6 @@ def delete(request, pool_id):
                 return render(request, 'home/delete_confirm.html', {
                     'getPool' : getPool,
                 })
-            else:
-                return HttpResponseRedirect(reverse('home:not_found'))
-        except (KeyError, Pool.DoesNotExist):
-            return HttpResponseRedirect(reverse('home:not_found'))
-    else:
-        return HttpResponseRedirect(reverse('home:login_status'))
-
-
-def vote(request, pool_id):
-    if request.user.is_authenticated:
-        try:
-            getPool = Pool.objects.get(pk=pool_id)
-            if getPool.status == True and getPool.user != request.user:
-                if request.method == 'POST':
-                    try:
-                        img = request.POST['img1']
-                        getPool.vote_img1.add(request.user)
-                    except (KeyError, Pool.DoesNotExist):
-                        img = request.POST['img2']
-                        getPool.vote_img2.add(request.user)
-                    
-                    return HttpResponseRedirect(reverse('home:index'))
             else:
                 return HttpResponseRedirect(reverse('home:not_found'))
         except (KeyError, Pool.DoesNotExist):

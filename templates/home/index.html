@@ -52,33 +52,10 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    <h4 class="text-dark">{{ i.title }}</h4>
+                    <h4 class="text-dark"><a href="/detail/{{i.id}}/" target="_blank" rel="noopener noreferrer">{{ i.title }}</a></h4>
                     <p class="text-secondary">{{ i.user }}</p>
                     <p class="text-secondary">{{ i.date_add }}</p>
-                    {% comment %} {% if request.user not in i.vote_img1 and request.user not in i.vote_img2 %} {% endcomment %}
-                    <div>
-                        <p class="text-success mr-5">Image 1: {{ i.vote_img1_count }}</p>
-                        <p class="text-warning">Image 2: {{ i.vote_img2_count }}</p>
-                    </div>
-                    {% comment %} {% endif %} {% endcomment %}
                 </div>
-                {% if request.user.is_authenticated %}
-                <div class="card-footer border-success d-flex justify-content-center p-3 bg-transparent">
-                    {% if request.user != i.user %}
-                    <form action="/vote/{{i.id}}/" method="post">
-                        {% csrf_token %}
-                        <input type="submit" value="Image 1" class="btn btn-success" name="img1">
-                    </form>
-                    <form action="/vote/{{i.id}}/" method="post">
-                        {% csrf_token %}
-                        <input type="submit" value="Image 2" class="btn btn-warning ml-5" name="img2">
-                    </form>
-                    {% else %}
-                    <a href="../edit/{{i.id}}/" class="btn btn-success">Edit</a>
-                    <a href="../delete-confirm/{{ i.id }}/" target="_blank" class="btn btn-danger ml-5">Delete</a>
-                    {% endif %}
-                </div>
-                {% endif %}
             </div>
         </div>
         {% endif %}
@@ -89,5 +66,4 @@
 <!-- another js -->
 <script type="text/javascript" src="{% static 'js/jquery-3.5.1.slim.min.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/popper.min.js' %}"></script>
-
 {% endblock content %}

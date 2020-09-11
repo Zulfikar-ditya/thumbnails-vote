@@ -12,5 +12,5 @@ urlpatterns = [
     path('my_thumbnails/', views.my_thumbnails, name='my_thumbnails'),
     path('edit/<int:pool_id>/', views.edit_thumb, name='edit,'),
     path('delete-confirm/<int:pool_id>/', views.delete, name='delete'),
-    path('vote/<int:pool_id>/', views.vote, name='vote'),
+    path('detail/<int:pool_id>/', views.detail, name='detail'),
 ]   
